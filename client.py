@@ -41,9 +41,11 @@ def receive():
 font_win = font.Font(None, 72)
 font_main = font.Font(None, 36)
 # --- ЗОБРАЖЕННЯ ----
-
+background = transform.scale(image.load("background.jpg"), (WIDTH, HEIGHT))
 # --- ЗВУКИ ---
-
+mixer.init()
+WALL_HIT_SOUND = mixer.Sound("1.mp3")
+PLATFORM_HIT_SOUND = mixer.Sound("2.mp3")
 # --- ГРА ---
 game_over = False
 winner = None
@@ -88,7 +90,8 @@ while True:
         continue  # Блокує гру після перемоги
 
     if game_state:
-        screen.fill((30, 30, 30))
+        #screen.fill((30, 30, 30))
+        screen.blit(background, (0, 0) )
         draw.rect(screen, (0, 255, 0), (20, game_state['paddles']['0'], 20, 100))
         draw.rect(screen, (255, 0, 255), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
         draw.circle(screen, (255, 255, 255), (game_state['ball']['x'], game_state['ball']['y']), 10)
@@ -97,11 +100,9 @@ while True:
 
         if game_state['sound_event']:
             if game_state['sound_event'] == 'wall_hit':
-                # звук відбиття м'ячика від стін
-                pass
+                WALL_HIT_SOUND.play()
             if game_state['sound_event'] == 'platform_hit':
-                # звук відбиття м'ячика від платформи
-                pass
+                PLATFORM_HIT_SOUND.play()
 
     else:
         wating_text = font_main.render(f"Очікування гравців...", True, (255, 255, 255))
