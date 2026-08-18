@@ -3,11 +3,14 @@ import json
 import threading
 import time
 import random
+import sys
 
 WIDTH, HEIGHT = 800, 600
 BALL_SPEED = 5
 PADDLE_SPEED = 10
 COUNTDOWN_START = 3
+HOST = sys.argv[1] if len(sys.argv) > 1 else "localhost"
+PORT = int(sys.argv[2]) if len(sys.argv) > 2 else 8080
 
 class GameServer:
     def __init__(self, host='localhost', port=8080):
@@ -119,6 +122,7 @@ class GameServer:
         for pid in [0, 1]:
             print(f"Очікуємо гравця {pid}...")
             conn, _ = self.server.accept()
+            conn.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             self.clients[pid] = conn
             conn.sendall((str(pid) + "\n").encode())
             self.connected[pid] = True
@@ -146,4 +150,4 @@ class GameServer:
                 self.clients[pid] = None
                 self.connected[pid] = False
 
-GameServer().run()
+GameServer(HOST, PORT).run()
