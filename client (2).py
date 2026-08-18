@@ -69,16 +69,16 @@ except:
     PLATFORM_HIT_SOUND = None
 
 try:
-    COUNTDOWN_SOUND = mixer.Sound("631547__troube__countdown-click.wav")
+    COUNTDOWN_SOUND = mixer.Sound("countdown.wav")
 except:
     COUNTDOWN_SOUND = None
 
-try:
-    mixer.music.load("251461__joshuaempyre__arcade-music-loop.wav")
-    mixer.music.set_volume(0.2)
-    mixer.music.play(-1)
-except:
-    pass
+#try:
+    #mixer.music.load("251461__joshuaempyre__arcade-music-loop.wav")
+    #mixer.music.set_volume(0.2)
+    #mixer.music.play(-1)
+#except:
+    #pass
 
 game_over = False
 winner = None
